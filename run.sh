@@ -18,7 +18,7 @@ docker logs mongodb
 
 echo "Create a base-image for Python Centos (Refer file dockerfile-bases) and build the image"
 
-docker build -t py-centos:bases -f dockerfile-bases .
+docker build -t pyubuntu:bases -f base_dockerfile
 
 echo "Create a image for python image which will use base image as py-centos:bases built in previous step"
 echo "\n\n"
@@ -36,10 +36,9 @@ echo "Run the Python App"
 # the tests dir inside container will have contents of the host's application dir
 # Whatever file you change in application dir, it will reflect inside the container
 docker run -d --name flaskpy3-mongo \
-	-v /root/orchestrator/containers/dockers/exercise006/application/:/tests \
 	-e FLASKHOSTNAME='0.0.0.0' \
 	-e FLASKPORT=4500 \
-    -e MONGOHOSTNAME='mongo' \
+    -e MONGOHOSTNAME='mongodb' \
     -e MONGOPORT=27017 \
 	-p 4500:4500 \
 	py-app-mongo:release-v1
@@ -48,7 +47,6 @@ echo "logs flaskpy3-mongo"
 docker logs flaskpy3-mongo
 
 docker ps 
-
 
 echo "Create a network named python-app-mongo "
 # Disconnect container from network
@@ -72,5 +70,4 @@ docker network connect network-python-mongo flaskpy3-mongo
 docker network ls
 
 echo "Do a Curl and test data"
-curl -XGET http://localhost:4500/hello_mongo/
-
+curl -XGET http://localhost:4500/
