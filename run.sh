@@ -18,7 +18,7 @@ docker logs mongodb
 
 echo "Create a base-image for Python Centos (Refer file dockerfile-bases) and build the image"
 
-docker build -t pyubuntu:bases -f base_dockerfile
+docker build -t pyubuntu:bases -f base_dockerfile .
 
 echo "Create a image for python image which will use base image as py-centos:bases built in previous step"
 echo "\n\n"
