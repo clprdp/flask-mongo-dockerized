@@ -7,7 +7,7 @@ spec:
     app: python-mongo-pod
   ports:
   - protocol: "TCP"
-    port: 6000
+    port: 5000
     targetPort: 4500
   type: LoadBalancer
 
@@ -34,12 +34,18 @@ spec:
         imagePullPolicy: Always
         env:
         - name: MONGOHOSTNAME
-          value: "mongodb"
+          value: "localhost"
+        - name: MONGOPORT
+          value: "27017"
         - name: FLASKHOSTNAME
           value: "0.0.0.0"
         - name: FLASKPORT
-          value: 4500
-        - name: MONGOPORT
-          value: 27017
+          value: "4500"
         ports:
         - containerPort: 4500
+
+      - name: mongov1
+        image: docker.io/bitnami/mongodb:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 27017
